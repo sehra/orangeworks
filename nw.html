@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>Time</th>
+				<th>Activity</th>
+				<th>Instructor</th>
+				<th>Slots</th>
+				<th>Location</th>
+			</tr>
+		</thead>
+		<tbody data-bind="foreach: activities">
+			<tr>
+				<th data-bind="text: when"></th>
+				<th data-bind="text: name"></th>
+				<th data-bind="text: instructor"></th>
+				<th data-bind="text: free"></th>
+				<th data-bind="text: location"></th>
+			</tr>
+		</tbody>
+	</table>
+	<script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/moment@2.26.0/moment.min.js"></script>
+	<script>
+		const params = { clubids: "11263,11264,15640" };
+		$.getJSON("https://api1.nordicwellness.se/groupactivity/timeslot", params, function (data) {
+			ko.applyBindings({
+				activities: data.groupActivities.map(x => ({
+					when: moment(x.StartTime).format('llll') + '-' + moment(x.EndTime).format('LT'),
+					name: x.Name,
+					instructor: x.Instructor,
+					free: x.FreeSlots,
+					location: x.Location,
+				}))
+			});
+		});
+	</script>
+</body>
+</html>
