@@ -3,41 +3,46 @@
 <html>
 <head>
 	<title>Nordic Wellness</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" />
 </head>
 <body>
-	<table>
-		<thead>
-			<tr>
-				<th>Time</th>
-				<th>Activity</th>
-				<th>Instructor</th>
-				<th>Slots</th>
-				<th>Location</th>
-			</tr>
-		</thead>
-		<tbody data-bind="foreach: activities">
-			<tr>
-				<th data-bind="text: when"></th>
-				<th data-bind="text: name"></th>
-				<th data-bind="text: instructor"></th>
-				<th data-bind="text: free"></th>
-				<th data-bind="text: location"></th>
-			</tr>
-		</tbody>
-	</table>
+	<div class="container-fluid">
+		<table class="table table-hover table-sm">
+			<thead>
+				<tr>
+					<th>Time</th>
+					<th>Activity</th>
+					<th>Instructor</th>
+					<th>Slots</th>
+					<th>Location</th>
+				</tr>
+			</thead>
+			<tbody data-bind="foreach: activities">
+				<tr data-bind="css: { 'text-muted': status == 'Cancelled' }">
+					<td data-bind="text: when"></td>
+					<td data-bind="text: name"></td>
+					<td data-bind="text: instructor"></td>
+					<td data-bind="text: slots"></td>
+					<td data-bind="text: location"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/moment@2.26.0/moment.min.js"></script>
 	<script>
-		const params = { clubids: "11263,11264,15640" };
+		const params = { clubIds: "11263,11264,15640" };
 		$.getJSON("https://api1.nordicwellness.se/groupactivity/timeslot", params, function (data) {
+			console.log(data);
 			ko.applyBindings({
 				activities: data.groupActivities.map(x => ({
-					when: moment(x.StartTime).format('llll') + '-' + moment(x.EndTime).format('LT'),
+					when: moment(x.StartTime).format('ll HH:mm') + '-' + moment(x.EndTime).format('HH:mm'),
 					name: x.Name,
 					instructor: x.Instructor,
-					free: x.FreeSlots,
+					slots: x.FreeSlots,
 					location: x.Location,
+					status: x.Status,
 				}))
 			});
 		});
