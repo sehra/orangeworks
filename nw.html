@@ -31,24 +31,27 @@
 			</tbody>
 		</table>
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/moment@2.26.0/moment.min.js"></script>
 	<script>
-		const params = { clubIds: "11263,11264,15640" };
-		$.getJSON("https://api1.nordicwellness.se/groupactivity/timeslot", params, function (data) {
-			console.log(data);
-			ko.applyBindings({
-				activities: data.groupActivities.map(x => ({
-					when: moment(x.StartTime).format('ll HH:mm') + '-' + moment(x.EndTime).format('HH:mm'),
-					name: x.Name,
-					instructor: x.Instructor,
-					slots: x.FreeSlots,
-					location: x.Location,
-					status: x.Status,
-				}))
+		let url = new URL("https://api1.nordicwellness.se/groupactivity/timeslot");
+		url.searchParams.set("clubIds", "11263,11264,15640");
+		
+		fetch(url)
+			.then(data => data.json())
+			.then(json => {
+				//console.log(json);
+				ko.applyBindings({
+					activities: json.groupActivities.map(x => ({
+						when: moment(x.StartTime).format('ll HH:mm') + '-' + moment(x.EndTime).format('HH:mm'),
+						name: x.Name,
+						instructor: x.Instructor,
+						slots: x.FreeSlots,
+						location: x.Location,
+						status: x.Status,
+					}))
+				});
 			});
-		});
 	</script>
 </body>
 </html>
