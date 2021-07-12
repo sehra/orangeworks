@@ -44,20 +44,8 @@
 					<h5>Round <span data-bind="text: $index() + 1"></span></h5>
 					<div data-bind="foreach: { data: events, as: 'event' }">
 						<div data-bind="foreach: { data: targetInfo, as: 'target' }">
-							<div data-bind="ifnot: event.type == 9">
-								<p data-bind="css: { 'text-danger': target.newHealth == 0, 'text-success': event.type == 4 || event.type == 6 }">
-									<span data-bind="text: board.get(event.casterBoardIndex)"></span>
-									(<span data-bind="text: event.casterBoardIndex"></span>)
-									used
-									<span data-bind="text: spell.get(event.spellID) ?? event.spellID"></span>
-									on
-									<span data-bind="text: board.get(target.boardIndex)"></span>
-									(<span data-bind="text: target.boardIndex"></span>)
-									for
-									<span data-bind="text: target.points"></span>
-									<span data-bind="text: spellSchoolName(event.schoolMask)"></span>
-									(<span data-bind="text: target.newHealth"></span>/<span data-bind="text: target.maxHealth"></span> health)
-								</p>
+							<div data-bind="css: { 'text-danger': event.type == 9, 'text-success': event.type == 4 || event.type == 6 }">
+								<p data-bind="text: formatEvent(event, spell.get(event.spellID), board.get(event.casterBoardIndex), event.casterBoardIndex, board.get(target.boardIndex), target.boardIndex, target.points, event.schoolMask, target.newHealth, target.maxHealth)"></p>
 							</div>
 						</div>
 					</div>
