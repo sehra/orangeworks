@@ -14,8 +14,14 @@
 	<textarea data-bind="textInput: input" cols="120" rows="5"></textarea>
 	<div data-bind="visible: views">
 		<h2>Mission View</h2>
+		<ul data-bind="foreach: views">
+			<li>
+				<a data-bind="attr: { href: ('#' + $index()) }, css:{ 'link-danger': !winner }, text: missionName"></a>
+			</li>
+		</ul>
 		<div data-bind="foreach: views">
 			<h3>
+				<a data-bind="attr: { name: $index }"></a>
 				<span data-bind="text: missionName, css: { 'text-danger': !winner }"></span>
 			</h3>
 			<p>Version <span data-bind="text: addonVersion"></span></p>
