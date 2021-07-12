@@ -51,7 +51,7 @@
 					<div data-bind="foreach: { data: events, as: 'event' }">
 						<div data-bind="foreach: { data: targetInfo, as: 'target' }">
 							<div data-bind="css: { 'text-danger': event.type == 9, 'text-success': event.type == 4 || event.type == 6 }">
-								<p data-bind="text: formatEvent(event, spell.get(event.spellID), board.get(event.casterBoardIndex), event.casterBoardIndex, board.get(target.boardIndex), target.boardIndex, target.points, event.schoolMask, target.newHealth, target.maxHealth)"></p>
+								<p data-bind="text: formatEvent(event, spell.get(event.spellID), event.spellID, board.get(event.casterBoardIndex), event.casterBoardIndex, board.get(target.boardIndex), target.boardIndex, target.points, event.schoolMask, target.newHealth, target.maxHealth)"></p>
 							</div>
 						</div>
 					</div>

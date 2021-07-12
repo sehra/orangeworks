@@ -117,27 +117,27 @@ enum GarrAutoMissionEventType {
 	Died = 9,
 }
 
-function formatEvent(event: LogEvent, spellName: string, caster: string, casterBoardIndex: number, target: string,
+function formatEvent(event: LogEvent, spellName: string, spellID: number, caster: string, casterBoardIndex: number, target: string,
 	targetBoardIndex: number, amount: number, element: number, targetNewHealth: number, targetMaxHealth: number): string {
 	switch (event.type) {
 		case GarrAutoMissionEventType.MeleeDamage:
-			return `${caster} (${casterBoardIndex}) meleed ${target} (${targetBoardIndex}) for ${amount} damage (${targetNewHealth}/${targetMaxHealth})`;
+			return `${caster} (${casterBoardIndex}) meleed (${spellID}) ${target} (${targetBoardIndex}) for ${amount} damage (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.RangeDamage:
-			return `${caster} (${casterBoardIndex}) shot ${target} (${targetBoardIndex}) for ${amount} damage (${targetNewHealth}/${targetMaxHealth})`;
+			return `${caster} (${casterBoardIndex}) shot (${spellID}) ${target} (${targetBoardIndex}) for ${amount} damage (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.SpellMeleeDamage:
-			return `${caster} (${casterBoardIndex}) cast ${spellName} at ${target} (${targetBoardIndex}) for ${amount} ${spellSchoolName(element)} damage (${targetNewHealth}/${targetMaxHealth})`;
+			return `${caster} (${casterBoardIndex}) cast ${spellName} (${spellID}) at ${target} (${targetBoardIndex}) for ${amount} ${spellSchoolName(element)} damage (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.SpellRangeDamage:
-			return `${caster} (${casterBoardIndex}) cast ${spellName} at ${target} (${targetBoardIndex}) for ${amount} ${spellSchoolName(element)} damage (${targetNewHealth}/${targetMaxHealth})`;
+			return `${caster} (${casterBoardIndex}) cast ${spellName} (${spellID}) at ${target} (${targetBoardIndex}) for ${amount} ${spellSchoolName(element)} damage (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.PeriodicDamage:
-			return `${caster}'s (${casterBoardIndex}) ${spellName} dealt ${amount} ${spellSchoolName(element)} to ${target} (${targetBoardIndex}) (${targetNewHealth}/${targetMaxHealth})`;
+			return `${caster}'s (${casterBoardIndex}) ${spellName} (${spellID}) dealt ${amount} ${spellSchoolName(element)} to ${target} (${targetBoardIndex}) (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.ApplyAura:
-			return `${caster} (${casterBoardIndex}) applied ${spellName} to ${target} (${targetBoardIndex}) (${targetNewHealth}/${targetMaxHealth})`;
+			return `${caster} (${casterBoardIndex}) applied ${spellName} (${spellID}) to ${target} (${targetBoardIndex}) (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.RemoveAura:
-			return `${caster} (${casterBoardIndex}) removed ${spellName} from ${target} (${targetBoardIndex}) (${targetNewHealth}/${targetMaxHealth})`;
+			return `${caster} (${casterBoardIndex}) removed ${spellName} (${spellID}) from ${target} (${targetBoardIndex}) (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.Heal:
-			return `${caster} (${casterBoardIndex}) cast ${spellName} on ${target} (${targetBoardIndex}) for ${amount} healing (${targetNewHealth}/${targetMaxHealth})`;
+			return `${caster} (${casterBoardIndex}) cast ${spellName} (${spellID}) on ${target} (${targetBoardIndex}) for ${amount} healing (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.PeriodicHeal:
-			return `${caster}'s (${casterBoardIndex}) ${spellName} healed ${target} (${targetBoardIndex}) for ${amount} (${targetNewHealth}/${targetMaxHealth})`;
+			return `${caster}'s (${casterBoardIndex}) ${spellName} (${spellID}) healed ${target} (${targetBoardIndex}) for ${amount} (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.Died:
 			return `${caster} (${casterBoardIndex}) killed ${target}.`;
 	}
