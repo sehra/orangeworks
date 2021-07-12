@@ -52,7 +52,7 @@ function formatEvent(event, spellName, spellID, caster, casterBoardIndex, target
         case GarrAutoMissionEventType.PeriodicHeal:
             return caster + "'s (" + casterBoardIndex + ") " + spellName + " (" + spellID + ") healed " + target + " (" + targetBoardIndex + ") for " + amount + " (" + targetNewHealth + "/" + targetMaxHealth + ")";
         case GarrAutoMissionEventType.Died:
-            return caster + " (" + casterBoardIndex + ") killed " + target + ".";
+            return caster + " (" + casterBoardIndex + ") killed " + target + " (" + targetBoardIndex + ").";
     }
 }
 var ViewModel = /** @class */ (function () {

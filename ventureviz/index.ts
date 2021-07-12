@@ -139,7 +139,7 @@ function formatEvent(event: LogEvent, spellName: string, spellID: number, caster
 		case GarrAutoMissionEventType.PeriodicHeal:
 			return `${caster}'s (${casterBoardIndex}) ${spellName} (${spellID}) healed ${target} (${targetBoardIndex}) for ${amount} (${targetNewHealth}/${targetMaxHealth})`;
 		case GarrAutoMissionEventType.Died:
-			return `${caster} (${casterBoardIndex}) killed ${target}.`;
+			return `${caster} (${casterBoardIndex}) killed ${target} (${targetBoardIndex}).`;
 	}
 }
 
