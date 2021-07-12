@@ -5,7 +5,6 @@
 <head>
 	<title>Venture Viz</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 
@@ -13,7 +12,7 @@
 	<h1>Venture Viz</h1>
 	<h2>Mission Data</h2>
 	<textarea data-bind="textInput: input" cols="120" rows="5"></textarea>
-	<div data-bind="visible: views">
+	<div data-bind="visible: views, let: { schools: schools }">
 		<h2>Mission View</h2>
 		<div data-bind="foreach: views">
 			<h3>
@@ -21,9 +20,10 @@
 			</h3>
 			<p>Version <span data-bind="text: addonVersion"></span></p>
 			<h4>Encounters</h4>
-			<ul data-bind="foreach: $data.encounters">
+			<ul data-bind="foreach: encounters">
 				<li>
-					<span data-bind="text: name"></span>,
+					<span data-bind="text: name"></span>
+					(<span data-bind="text: boardIndex"></span>),
 					Health <span data-bind="text: health"></span>/<span data-bind="text: maxHealth"></span>,
 					Attack <span data-bind="text: attack"></span>
 				</li>
@@ -31,7 +31,8 @@
 			<h4>Followers</h4>
 			<ul data-bind="foreach: Object.values($data.followers)">
 				<li>
-					<span data-bind="text: name"></span>,
+					<span data-bind="text: name"></span>
+					(<span data-bind="text: boardIndex"></span>),
 					Level <span data-bind="text: level"></span>,
 					Health <span data-bind="text: health"></span>/<span data-bind="text: maxHealth"></span>,
 					Attack <span data-bind="text: attack"></span>
@@ -53,7 +54,7 @@
 								(<span data-bind="text: target.boardIndex"></span>)
 								for
 								<span data-bind="text: target.points"></span>
-								damage
+								<span data-bind="text: schools.get(event.schoolMask)">
 								(<span data-bind="text: target.newHealth"></span>/<span data-bind="text: target.maxHealth"></span> health)
 							</p>
 						</div>
@@ -62,8 +63,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.debug.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"></script>
 	<script src="index.js"></script>
 </body>
 

@@ -10,8 +10,16 @@ var ViewModel = /** @class */ (function () {
     function ViewModel() {
         this.input = ko.observable();
         this.views = ko.observableArray();
+        this.schools = new Map();
         this.input.extend({ rateLimit: { timeout: 100, method: 'notifyWhenChangesStop' } });
         this.input.subscribe(this.update, this);
+        this.schools.set(1, 'Physical');
+        this.schools.set(2, 'Holy');
+        this.schools.set(4, 'Fire');
+        this.schools.set(8, 'Nature');
+        this.schools.set(16, 'Frost');
+        this.schools.set(32, 'Shadow');
+        this.schools.set(64, 'Arcane');
     }
     ViewModel.prototype.update = function (value) {
         var _a;
@@ -40,6 +48,7 @@ var ViewModel = /** @class */ (function () {
                 return data;
             }
             catch (e) {
+                console.log(e);
                 return null;
             }
         })
@@ -49,4 +58,4 @@ var ViewModel = /** @class */ (function () {
     };
     return ViewModel;
 }());
-ko.applyBindings(new ViewModel(), document.body);
+ko.applyBindings(new ViewModel());
