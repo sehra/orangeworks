@@ -18,41 +18,41 @@ function spellSchoolName(school) {
         default: return String(school);
     }
 }
-var GarrAutoMissionEventType;
-(function (GarrAutoMissionEventType) {
-    GarrAutoMissionEventType[GarrAutoMissionEventType["MeleeDamage"] = 0] = "MeleeDamage";
-    GarrAutoMissionEventType[GarrAutoMissionEventType["RangeDamage"] = 1] = "RangeDamage";
-    GarrAutoMissionEventType[GarrAutoMissionEventType["SpellMeleeDamage"] = 2] = "SpellMeleeDamage";
-    GarrAutoMissionEventType[GarrAutoMissionEventType["SpellRangeDamage"] = 3] = "SpellRangeDamage";
-    GarrAutoMissionEventType[GarrAutoMissionEventType["Heal"] = 4] = "Heal";
-    GarrAutoMissionEventType[GarrAutoMissionEventType["PeriodicDamage"] = 5] = "PeriodicDamage";
-    GarrAutoMissionEventType[GarrAutoMissionEventType["PeriodicHeal"] = 6] = "PeriodicHeal";
-    GarrAutoMissionEventType[GarrAutoMissionEventType["ApplyAura"] = 7] = "ApplyAura";
-    GarrAutoMissionEventType[GarrAutoMissionEventType["RemoveAura"] = 8] = "RemoveAura";
-    GarrAutoMissionEventType[GarrAutoMissionEventType["Died"] = 9] = "Died";
-})(GarrAutoMissionEventType || (GarrAutoMissionEventType = {}));
-function formatEvent(event, spellName, spellID, caster, casterBoardIndex, target, targetBoardIndex, amount, element, targetNewHealth, targetMaxHealth) {
+var EventType;
+(function (EventType) {
+    EventType[EventType["MeleeDamage"] = 0] = "MeleeDamage";
+    EventType[EventType["RangeDamage"] = 1] = "RangeDamage";
+    EventType[EventType["SpellMeleeDamage"] = 2] = "SpellMeleeDamage";
+    EventType[EventType["SpellRangeDamage"] = 3] = "SpellRangeDamage";
+    EventType[EventType["Heal"] = 4] = "Heal";
+    EventType[EventType["PeriodicDamage"] = 5] = "PeriodicDamage";
+    EventType[EventType["PeriodicHeal"] = 6] = "PeriodicHeal";
+    EventType[EventType["ApplyAura"] = 7] = "ApplyAura";
+    EventType[EventType["RemoveAura"] = 8] = "RemoveAura";
+    EventType[EventType["Died"] = 9] = "Died";
+})(EventType || (EventType = {}));
+function formatEvent(event, target, board, spells) {
     switch (event.type) {
-        case GarrAutoMissionEventType.MeleeDamage:
-            return caster + " (" + casterBoardIndex + ") meleed (" + spellID + ") " + target + " (" + targetBoardIndex + ") for " + amount + " damage (" + targetNewHealth + "/" + targetMaxHealth + ")";
-        case GarrAutoMissionEventType.RangeDamage:
-            return caster + " (" + casterBoardIndex + ") shot (" + spellID + ") " + target + " (" + targetBoardIndex + ") for " + amount + " damage (" + targetNewHealth + "/" + targetMaxHealth + ")";
-        case GarrAutoMissionEventType.SpellMeleeDamage:
-            return caster + " (" + casterBoardIndex + ") cast " + spellName + " (" + spellID + ") at " + target + " (" + targetBoardIndex + ") for " + amount + " " + spellSchoolName(element) + " damage (" + targetNewHealth + "/" + targetMaxHealth + ")";
-        case GarrAutoMissionEventType.SpellRangeDamage:
-            return caster + " (" + casterBoardIndex + ") cast " + spellName + " (" + spellID + ") at " + target + " (" + targetBoardIndex + ") for " + amount + " " + spellSchoolName(element) + " damage (" + targetNewHealth + "/" + targetMaxHealth + ")";
-        case GarrAutoMissionEventType.PeriodicDamage:
-            return caster + "'s (" + casterBoardIndex + ") " + spellName + " (" + spellID + ") dealt " + amount + " " + spellSchoolName(element) + " to " + target + " (" + targetBoardIndex + ") (" + targetNewHealth + "/" + targetMaxHealth + ")";
-        case GarrAutoMissionEventType.ApplyAura:
-            return caster + " (" + casterBoardIndex + ") applied " + spellName + " (" + spellID + ") to " + target + " (" + targetBoardIndex + ") (" + targetNewHealth + "/" + targetMaxHealth + ")";
-        case GarrAutoMissionEventType.RemoveAura:
-            return caster + " (" + casterBoardIndex + ") removed " + spellName + " (" + spellID + ") from " + target + " (" + targetBoardIndex + ") (" + targetNewHealth + "/" + targetMaxHealth + ")";
-        case GarrAutoMissionEventType.Heal:
-            return caster + " (" + casterBoardIndex + ") cast " + spellName + " (" + spellID + ") on " + target + " (" + targetBoardIndex + ") for " + amount + " healing (" + targetNewHealth + "/" + targetMaxHealth + ")";
-        case GarrAutoMissionEventType.PeriodicHeal:
-            return caster + "'s (" + casterBoardIndex + ") " + spellName + " (" + spellID + ") healed " + target + " (" + targetBoardIndex + ") for " + amount + " (" + targetNewHealth + "/" + targetMaxHealth + ")";
-        case GarrAutoMissionEventType.Died:
-            return caster + " (" + casterBoardIndex + ") killed " + target + " (" + targetBoardIndex + ").";
+        case EventType.MeleeDamage:
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") meleed (" + event.spellID + ") " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
+        case EventType.RangeDamage:
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") shot (" + event.spellID + ") " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
+        case EventType.SpellMeleeDamage:
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") cast " + spells.get(event.spellID) + " (" + event.spellID + ") at " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " " + spellSchoolName(event.schoolMask) + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
+        case EventType.SpellRangeDamage:
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") cast " + spells.get(event.spellID) + " (" + event.spellID + ") at " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " " + spellSchoolName(event.schoolMask) + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
+        case EventType.PeriodicDamage:
+            return board.get(event.casterBoardIndex) + "'s (" + event.casterBoardIndex + ") " + spells.get(event.spellID) + " (" + event.spellID + ") dealt " + target.points + " " + spellSchoolName(event.schoolMask) + " to " + board.get(target.boardIndex) + " (" + target.boardIndex + ") (" + target.newHealth + "/" + target.maxHealth + ")";
+        case EventType.ApplyAura:
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") applied " + spells.get(event.spellID) + " (" + event.spellID + ") to " + board.get(target.boardIndex) + " (" + target.boardIndex + ")";
+        case EventType.RemoveAura:
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") removed " + spells.get(event.spellID) + " (" + event.spellID + ") from " + board.get(target.boardIndex) + " (" + target.boardIndex + ")";
+        case EventType.Heal:
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") cast " + spells.get(event.spellID) + " (" + event.spellID + ") on " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " healing (" + target.newHealth + "/" + target.maxHealth + ")";
+        case EventType.PeriodicHeal:
+            return board.get(event.casterBoardIndex) + "'s (" + event.casterBoardIndex + ") " + spells.get(event.spellID) + " (" + event.spellID + ") healed " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " (" + target.newHealth + "/" + target.maxHealth + ")";
+        case EventType.Died:
+            return board.get(event.casterBoardIndex) + "'s (" + event.casterBoardIndex + ") killed " + board.get(target.boardIndex) + " (" + target.boardIndex + ")";
     }
 }
 var ViewModel = /** @class */ (function () {
