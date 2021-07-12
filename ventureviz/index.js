@@ -6,20 +6,24 @@ function notNull(value) {
     }
     return true;
 }
+function spellSchoolName(school) {
+    switch (school) {
+        case 1: return 'Physical';
+        case 2: return 'Holy';
+        case 4: return 'Fire';
+        case 8: return 'Nature';
+        case 16: return 'Frost';
+        case 32: return 'Shadow';
+        case 64: return 'Arcane';
+        default: return String(school);
+    }
+}
 var ViewModel = /** @class */ (function () {
     function ViewModel() {
         this.input = ko.observable();
         this.views = ko.observableArray();
-        this.schools = new Map();
         this.input.extend({ rateLimit: { timeout: 100, method: 'notifyWhenChangesStop' } });
         this.input.subscribe(this.update, this);
-        this.schools.set(1, 'Physical');
-        this.schools.set(2, 'Holy');
-        this.schools.set(4, 'Fire');
-        this.schools.set(8, 'Nature');
-        this.schools.set(16, 'Frost');
-        this.schools.set(32, 'Shadow');
-        this.schools.set(64, 'Arcane');
     }
     ViewModel.prototype.update = function (value) {
         var _a;
