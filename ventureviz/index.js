@@ -31,26 +31,26 @@ var EventType;
     EventType[EventType["RemoveAura"] = 8] = "RemoveAura";
     EventType[EventType["Died"] = 9] = "Died";
 })(EventType || (EventType = {}));
-function formatEvent(event, target, board, spells) {
+function formatEvent(event, target, board, spell) {
     switch (event.type) {
         case EventType.MeleeDamage:
             return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") meleed (" + event.spellID + ") " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
         case EventType.RangeDamage:
             return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") shot (" + event.spellID + ") " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
         case EventType.SpellMeleeDamage:
-            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") cast " + spells.get(event.spellID) + " (" + event.spellID + ") at " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " " + spellSchoolName(event.schoolMask) + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") cast " + spell.get(event.spellID) + " (" + event.spellID + ") at " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " " + spellSchoolName(event.schoolMask) + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
         case EventType.SpellRangeDamage:
-            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") cast " + spells.get(event.spellID) + " (" + event.spellID + ") at " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " " + spellSchoolName(event.schoolMask) + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") cast " + spell.get(event.spellID) + " (" + event.spellID + ") at " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " " + spellSchoolName(event.schoolMask) + " damage (" + target.newHealth + "/" + target.maxHealth + ")";
         case EventType.PeriodicDamage:
-            return board.get(event.casterBoardIndex) + "'s (" + event.casterBoardIndex + ") " + spells.get(event.spellID) + " (" + event.spellID + ") dealt " + target.points + " " + spellSchoolName(event.schoolMask) + " to " + board.get(target.boardIndex) + " (" + target.boardIndex + ") (" + target.newHealth + "/" + target.maxHealth + ")";
+            return board.get(event.casterBoardIndex) + "'s (" + event.casterBoardIndex + ") " + spell.get(event.spellID) + " (" + event.spellID + ") dealt " + target.points + " " + spellSchoolName(event.schoolMask) + " to " + board.get(target.boardIndex) + " (" + target.boardIndex + ") (" + target.newHealth + "/" + target.maxHealth + ")";
         case EventType.ApplyAura:
-            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") applied " + spells.get(event.spellID) + " (" + event.spellID + ") to " + board.get(target.boardIndex) + " (" + target.boardIndex + ")";
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") applied " + spell.get(event.spellID) + " (" + event.spellID + ") to " + board.get(target.boardIndex) + " (" + target.boardIndex + ")";
         case EventType.RemoveAura:
-            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") removed " + spells.get(event.spellID) + " (" + event.spellID + ") from " + board.get(target.boardIndex) + " (" + target.boardIndex + ")";
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") removed " + spell.get(event.spellID) + " (" + event.spellID + ") from " + board.get(target.boardIndex) + " (" + target.boardIndex + ")";
         case EventType.Heal:
-            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") cast " + spells.get(event.spellID) + " (" + event.spellID + ") on " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " healing (" + target.newHealth + "/" + target.maxHealth + ")";
+            return board.get(event.casterBoardIndex) + " (" + event.casterBoardIndex + ") cast " + spell.get(event.spellID) + " (" + event.spellID + ") on " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " healing (" + target.newHealth + "/" + target.maxHealth + ")";
         case EventType.PeriodicHeal:
-            return board.get(event.casterBoardIndex) + "'s (" + event.casterBoardIndex + ") " + spells.get(event.spellID) + " (" + event.spellID + ") healed " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " (" + target.newHealth + "/" + target.maxHealth + ")";
+            return board.get(event.casterBoardIndex) + "'s (" + event.casterBoardIndex + ") " + spell.get(event.spellID) + " (" + event.spellID + ") healed " + board.get(target.boardIndex) + " (" + target.boardIndex + ") for " + target.points + " (" + target.newHealth + "/" + target.maxHealth + ")";
         case EventType.Died:
             return board.get(event.casterBoardIndex) + "'s (" + event.casterBoardIndex + ") killed " + board.get(target.boardIndex) + " (" + target.boardIndex + ")";
     }
