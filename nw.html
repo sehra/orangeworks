@@ -1,12 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
+
 <head>
 	<title>Nordic Wellness</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
-	      integrity="sha256-aAr2Zpq8MZ+YA/D6JtRD3xtrwpEz2IqOS+pWD/7XKIw=" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+		integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" crossorigin="anonymous">
 </head>
-<body>
+
+<body data-bs-theme="dark">
 	<div class="container-fluid">
 		<div data-bind="css: { 'd-none': activities }" class="mt-5 text-center">
 			<div class="spinner-border"></div>
@@ -22,33 +24,34 @@
 				</tr>
 			</thead>
 			<tbody data-bind="foreach: activities">
-				<tr data-bind="css: { 'text-muted': status != 'Bookable' }">
-					<td data-bind="text: when"></td>
-					<td data-bind="text: name"></td>
-					<td data-bind="text: instructor"></td>
-					<td data-bind="text: slots"></td>
-					<td data-bind="text: location"></td>
+				<tr data-bind="css: { 'text-body-tertiary': status != 'Bookable' }">
+					<td data-bind="text: when" class="text-reset"></td>
+					<td data-bind="text: name" class="text-reset"></td>
+					<td data-bind="text: instructor" class="text-reset"></td>
+					<td data-bind="text: slots" class="text-reset"></td>
+					<td data-bind="text: location" class="text-reset"></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.js"
-	        integrity="sha256-6JV7sYKlBHsHvqCkn9IrEWFLGrmsW4KG/LIln0hljnM=" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/min/moment.min.js"
-	        integrity="sha256-ZsWP0vT+akWmvEMkNYgZrPHKU9Ke8nYBPC3dqONp1mY=" crossorigin="anonymous"></script>
+		integrity="sha256-6JV7sYKlBHsHvqCkn9IrEWFLGrmsW4KG/LIln0hljnM=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/moment@2.30.1/moment.js"
+		integrity="sha256-fcClHDLa4UPy6t4jUUXf1qd1Y4jA8L9An6Nz3WwjNik=" crossorigin="anonymous"></script>
 	<script>
 		let url = new URL("https://api1.nordicwellness.se/groupactivity/timeslot");
-		url.searchParams.set("clubIds", "11263,11264,15640");
-		
+		url.searchParams.set("clubIds", "11263,11264,15640,24019");
+		let none = new RegExp('ingen instruktör|virtual', 'i');
+
 		fetch(url)
 			.then(data => data.json())
 			.then(json => {
 				//console.log(json);
 				ko.applyBindings({
 					activities: json.groupActivities.map(x => ({
-						when: moment(x.StartTime).format('ll HH:mm') + '-' + moment(x.EndTime).format('HH:mm'),
+						when: `${moment(x.StartTime).format('ll HH:mm')}-${moment(x.EndTime).format('HH:mm')}`,
 						name: x.Name,
-						instructor: x.Instructor,
+						instructor: none.test(x.Instructor) ? '' : x.Instructor,
 						slots: x.FreeSlots,
 						location: x.Location,
 						status: x.Status,
@@ -57,4 +60,5 @@
 			});
 	</script>
 </body>
+
 </html>
